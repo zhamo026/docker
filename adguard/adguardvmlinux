@@ -88,6 +88,10 @@ CTRL+X
 
 docker-compose up -d
 
+#if error install apparmor
+apt install apparmor
+apt update
+
 #go to port 3000 to install adguard
 #https://nexusiiidsm.synology.me:55868/ns/sharing/05dYi
 #https://github.com/zhamo026/docker
