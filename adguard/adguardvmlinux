@@ -1,0 +1,80 @@
+#Linux turnkey ISO
+#Upload the ISO (VirtualBox VM/Synology VM)
+#follow the setup process 
+#Install turnkey 
+#Guided Logical volume manager LVM
+#confirm                     ....yes
+#90%                         ....ok
+#write changes to disk       ....yes
+#install bootloader          ....yes      
+#eject the installer(if virtual box shutdown and unmount the disk)
+#set a password
+#add/skip API key 
+#add/skip email 
+#install security updates
+#reboot
+#ssh/confconsole
+#login as root
+#use the previous password
+#update
+
+apt-get update
+
+apt-get upgrade
+
+apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+
+
+curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+
+apt-key fingerprint 0EBFCD88
+
+apt-get update
+
+add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/debian \
+   $(lsb_release -cs) \
+   stable"
+
+apt-get update
+
+apt-get install docker-ce docker-ce-cli containerd.io
+
+apt-get install docker-compose
+
+
+mkdir adguard && cd adguard
+nano docker-compose.yml
+
+#Synology VM /virtualbox
+#---------------------------------------------(without the line)
+
+version: "2"
+services:
+  adguardhome:
+    image: adguard/adguardhome
+    container_name: adguardhome
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 67:67/udp
+      - 68:68/tcp
+      - 68:68/udp
+      - 853:853/tcp
+      - 3000:3000/tcp
+      - 80:80/tcp
+    volumes:
+      - /srv/Configs/AdGuard/workdir:/opt/adguardhome/work
+      - /srv/Configs/AdGuard/confdir:/opt/adguardhome/conf
+    restart: unless-stopped
+    
+CTRL+O
+enter
+CTRL+X
+
+#go to port 3000 to install adguard
