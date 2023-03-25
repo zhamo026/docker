@@ -1,0 +1,35 @@
+#it is portainer stack it has to be on a string format
+
+---
+version: "2.1"
+services:
+  adguardhome-sync:
+    image: quay.io/bakito/adguardhome-sync
+    container_name: adguardhome-sync
+    command: run
+#add the UI ip of the adguard instance add a port if needed
+#add the user name and password of the UI
+    environment:
+      - ORIGIN_URL=http://0.0.0.0:00 
+      - ORIGIN_USERNAME=0000 
+      - ORIGIN_PASSWORD=0000
+      - REPLICA_URL=http://0.0.0.0 #change as necessary
+      - REPLICA_USERNAME=0000 
+      - REPLICA_PASSWORD=0000 
+#change the cron as you like this tool can help https://crontab.cronhub.io/
+      - CRON=*/1 * * * * # run every 1 minute
+      - RUNONSTART=true
+#if DHCP errors disable the dhcp features string
+      - FEATURES_DHCP_SERVERCONFIG=false
+      - FEATURES_DHCP_STATICLEASES=false
+
+#if connecting change the port number
+    ports:
+      - 0000:8080 
+    restart: unless-stopped
+    
+#source for this stack was found in the following links
+#https://github.com/bakito/adguardhome-sync
+#https://thesmarthomejourney.com/2023/02/12/adguardhome-sync-instances/
+#https://gist.github.com/dnburgess/5c450ff4d5d59525344e31ebf5421e91
+    
