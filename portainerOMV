@@ -1,0 +1,6 @@
+#install the extras in OVM
+#install portainer
+#if after install the setup times out restar the container
+#ssh
+docker restart CONTAINER_NAME
+#after installation set the local ip into the enviroments
